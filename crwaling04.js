@@ -14,7 +14,7 @@ async function main () {  //비동기 입출력 지원 함수 정의
     const URl = 'http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty';
     const params = {
         'servicekey': 'jpe6L3k+4bb1WZhf5gztMjF8ceaW2SgEwh1V+glIC7ZxX8O6z8UjBdE6f3pnrkeHz1+np8lGb0drUp5bqZq/qw==',
-        'returnType': 'json', 'sidoName': '전국','numOfRows':500
+        'returnType': 'json', 'sidoName': '서울', 'numOfRows': 500, 'ver': 1.3
     };
 
     const headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.78'};
@@ -29,14 +29,32 @@ async function main () {  //비동기 입출력 지원 함수 정의
 //받아온데이터 잠시 확인
     //console.log(json.data);
     //json으로 블러오기
-    let items=json.data['response']['body']['items'];
+    let items = json.data['response']['body']['items'];
     //console.log(items);
 //미세먼지 정보 출력
-    //pm25Value는 출력안됨
-    for (let item of items){
-        console.log(item.sidoName,item.stationName,item.pm10Value, item.dataTime);
+    //
+    for (let item of items) {
+        console.log(item.sidoName, item.stationName,
+            item.pm10Value, item.pm25Value,
+
+            pmGrade(item.pm10grade), pmGrade(item.pm25grade), item.dataTime);
     }
 
-}
+      //등급별 이모지
+      //😍 😑  😰  😱
+
+
+
+};
+let pmGrade=(val) =>{
+   // let emoji ='😱';
+   // if(val=='1') emoji='😍';
+   // else if(val=='2') emoji='😑';
+   // else if(val=='3') emoji='😰';
+    let emojis =['😍','😑','😰','😱'];
+    return emojis[parseInt(val)-1];
+
+    return emoji;
+};
 
 main();
