@@ -11,7 +11,7 @@ async function main (){  //비동기 입출력 지원 함수 정의
     const URl='https://www.hanbit.co.kr/store/books/new_book_list.html';
 
     //axios로 접속해서 html불러옴
-     const html=await axios.get(URl); //비동기 i/o 지원
+     const html=await axios.get(URl);  //비동기 i/o 지원
 
     //불러온 html을 parsing해서 dom 생성
     const dom = cheerio.load(html.data);
