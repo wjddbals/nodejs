@@ -4,12 +4,12 @@
 
 const { Builder, Browser, By, Key, until, Select } = require('selenium-webdriver');
 
-async function main() {
+async function main() { //async function 선언은 AsyncFunction객체를 반환하는 하나의 비동기 함수를 정의합
     const URL = 'http://k-apt.go.kr';
     const chrome = await new Builder().forBrowser(Browser.CHROME)
         .build();
 
-    try {
+    try {   //try...catch 문은 실행할 코드블럭을 표시하고 예외(exception)가 발생(throw)할 경우의 응답을 지정합니다.
         await chrome.get(URL);
 
         // 우리단지 기본정보 버튼이 표시될때까지 5초 대기
