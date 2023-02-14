@@ -67,17 +67,65 @@ async function main() {
         // 검색결과 출력 - 아파트명, 주소
         let apts = await chrome.findElements(By.css('.aptS_rLName'));
         let aptaddrs = await chrome.findElements(By.css('.aptS_rLAdd'));
-        await sleep(3000);
+        await sleep(1500);
 
         for(let apt of apts) {
             console.log(await apt.getAttribute('textContent'));
         }
-        await sleep(3000);
+        await sleep(1500);
 
-        for(let addr of aptaddrs) {
+        for(let addr of aptaddrs) {//아파트 주소
             console.log(await addr.getAttribute('textContent'));
         }
-        await chrome.sleep(3000);
+        await chrome.sleep(1500);
+
+
+        //아이 파크 살성동 항목을 찾아 클릭
+        let idx=0;
+        for (let val of apts) {
+            console.log(`${idx++} ${await val.getAttribute(`textContent`)}`);
+            if(await val.getAttribute(`textContent`)==apt) break;
+
+        }
+        //추출한 인텍스값을 이용해서 항목 직접 클릭
+       // await chrome.executeScript('arguments[0].click();',apts[--idx]); //아이파트 항목을 클릭해준다 프러스해줘서 마이너스 해준다 15번째 요소 를 출력해준다
+       menu = await chrome.findElements(
+           By.css(`.mCSB_container ul li:nth-child(${idx})a`)); // //위 주석친거랑 같다 다시보자
+
+        await chrome.actions().move({origin: menu})
+            .click().perform();
+
+
+        await chrome.sleep(1500);
+
+       // -------------------------------------
+        //관리시설 정보 클릭
+        await chrome.wait(until.elementLocated(
+            By.css('.lnbNav li:nth-child(3) a')), 5000);
+
+        menu=await chrome.findElement(
+            By.css(`.lnbNav li:nth-child(3) a`));
+
+            await chrome.actions().move({origin:menu})
+                .click().perform();
+            await sleep(1000);
+
+
+
+
+
+
+
+        //지상 지하 주차장 대수 추출
+        let pcnt=await chrome.findElement(
+            By.css(`#kaptd_pcnt`)).getText();
+        let pcntu=await chrome.findElement(
+            By.css(`#kaptd_pcntu`)).getText();
+        let tpcnt=await chrome.findElement(
+            By.css(`#kaptd_total_pcnt`)).getText();
+        console.log(pcnt,pcntu,tpcnt);
+        await sleep(3000);
+
 
     } catch (ex) {
         console.log(ex);
